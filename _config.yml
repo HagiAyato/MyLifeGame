@@ -1,0 +1,15 @@
+﻿# Google Analytisc
+google_analytics: UA-185637831-1
+# language
+lang: ja-JP
+
+# Build settings
+plugins:
+  - jekyll-feed # フィード
+  - jekyll-redirect-from # リダイレクト
+  - jekyll-seo-tag # SEOタグ
+  - jekyll-sitemap # サイトマップ
+  - jemoji # 絵文字
+  - jekyll-mentions # リダイレクト
+
+theme: jekyll-theme-minimal
