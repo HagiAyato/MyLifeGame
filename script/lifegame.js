@@ -6,6 +6,9 @@ var canvas_width = 30;           // キャンバス横幅
 var canvas_height = 30;           // キャンバス縦幅 
 var canvas_mousedown_flg = false; // マウスダウンフラグ
 
+var debug = false; // デバッグ
+var swLifeGame = false; // LifeGame実行ﾌﾗｸﾞ
+
 ///// 内部関数
 
 function init_canvas() {
@@ -22,7 +25,7 @@ function Point2BlockName(x, y) {
     var col = 'C' + (Math.floor(x / canvas_magnification) + 1);
     var row = 'R' + (Math.floor(y / canvas_magnification) + 1);
 
-    document.getElementById('msg3').innerHTML = 'セル番号　' + row + ' x ' + col;
+    if(debug)document.getElementById('msg3').innerHTML = 'セル番号　' + row + ' x ' + col;
 }
 
 // キャンバスに罫線を描画する
@@ -86,7 +89,7 @@ function OnMousedown(e) {
     // 罫線の描画
     drawRule();
 
-    document.getElementById('msg2').innerHTML = 'マウスダウン　X:' + mouseX + ' Y' + mouseY;
+    if(debug)document.getElementById('msg2').innerHTML = 'マウスダウン　X:' + mouseX + ' Y' + mouseY;
 
     canvas_mousedown_flg = true;
 }
@@ -108,10 +111,20 @@ function OnMousemove(e) {
         drawRule();
     }
 
-    document.getElementById('msg1').innerHTML = '現在座標　X:' + mouseX + ' Y' + mouseY;
+    if(debug)document.getElementById('msg1').innerHTML = '現在座標　X:' + mouseX + ' Y' + mouseY;
     Point2BlockName(mouseX, mouseY);
 }
 
 function OnMouseup(e) {
     canvas_mousedown_flg = false;
-}            
+}
+
+// LifeGame開始/停止
+function OnPressswLifeGame() {
+    swLifeGame = !swLifeGame
+    if(swLifeGame){
+        $('#BTNLifeGame').text('停止');
+    }else{
+        $('#BTNLifeGame').text('開始');
+    }
+}
