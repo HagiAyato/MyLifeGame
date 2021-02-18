@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- Bootstrap jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="css/lifegame.css" />
+    <script type="text/javascript" src="script/lifegame.js">
+    </script>
+    <title>Life Game!</title>
+    <meta name="description" content="HTML,JavaScript,CSSを久しぶりに触ってアナログ時計を作ってみる。端末の現在時刻と任意の時刻の表示に対応。" />
+</head>
+
+<header>
+    <h1>ライフゲーム/Life Game</h1>
+</header>
+
+<body>
+    <button class="btn btn-danger" onclick="init_canvas();">クリア</button>
+    <button class="btn btn-primary" onclick="">開始</button>
+    <p></p>
+    <canvas id="MyCanvas" style="padding:0;"></canvas>
+    <div id="msg1"></div>
+    <div id="msg2"></div>
+    <div id="msg3"></div>
+</body>
+
+<footer>
+    <h3>リンク</h3>
+    <h4>実装の参考</h4>
+    <a href="https://www.petitmonte.com/javascript/canvas_dot_picture.html">canvasでドット絵用のキャンバスを作成する[1マス=1ドット]</a><br />
+    <h4>製作者関係</h4>
+    <a href="https://hagiayato.github.io/my-site/"> 製作者のサイト "HA Works"</a><br />
+    <a href="https://github.com/HagiAyato/MyLifeGame"> このwebアプリのソースコード(github)</a><br />
+</footer>
+
+</html>
