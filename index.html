@@ -2,6 +2,16 @@
 <html>
 
 <head>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-181538826-2"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-185637831-1');
+	</script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,15 +19,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <!-- jQuery -->
-    <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <!-- Bootstrap JS -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="css/lifegame.css" />
     <script type="text/javascript" src="script/lifegame.js">
     </script>
     <title>Life Game!</title>
-    <meta name="description" content="HTML,JavaScript,CSSを久しぶりに触ってアナログ時計を作ってみる。端末の現在時刻と任意の時刻の表示に対応。" />
+    <meta name="description" content="HTML,JavaScript,CSSで作るライフゲーム。" />
 </head>
 
 <header>
@@ -33,7 +43,7 @@
 <body>
     <div class="container-fluid">
         <button class="btn btn-danger" onclick="init_canvas();">クリア</button>
-        <button class="btn btn-primary" id="BTNLifeGame" onclick="OnPressswLifeGame()">開始</button>
+        <button class="btn btn-primary" id="BTNLifeGame" onclick="OnPresssLifeGame()">開始</button>
         <p></p>
         <canvas id="MyCanvas" style="padding:0;"></canvas>
         <div id="msg1"></div>
@@ -48,8 +58,7 @@
             <div class="navbar-footer">
                 <h3>リンク</h3>
                 <h4>実装の参考</h4>
-                <a
-                    href="https://www.petitmonte.com/javascript/canvas_dot_picture.html">canvasでドット絵用のキャンバスを作成する[1マス=1ドット]</a><br />
+                <a href="https://www.petitmonte.com/javascript/canvas_dot_picture.html">canvasでドット絵用のキャンバスを作成する[1マス=1ドット]</a><br />
                 <h4>製作者関係</h4>
                 <a href="https://hagiayato.github.io/my-site/"> 製作者のサイト "HA Works"</a><br />
                 <a href="https://github.com/HagiAyato/MyLifeGame"> このwebアプリのソースコード(github)</a><br />

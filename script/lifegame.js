@@ -120,7 +120,7 @@ function OnMouseup(e) {
 }
 
 // LifeGame開始/停止
-function OnPressswLifeGame() {
+function OnPresssLifeGame() {
     swLifeGame = !swLifeGame
     if(swLifeGame){
         $('#BTNLifeGame').text('停止');
