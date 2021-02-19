@@ -1,13 +1,15 @@
 var canvas; // キャンバス
 var ctx;    // コンテキスト
+var timerID;    // タイマー
 
 var canvas_magnification = 15;    // 表示倍率  
-var canvas_width = 30;           // キャンバス横幅   
-var canvas_height = 30;           // キャンバス縦幅 
+var canvas_width = 40;           // キャンバス横幅   
+var canvas_height = 35;           // キャンバス縦幅 
 var canvas_mousedown_flg = false; // マウスダウンフラグ
 
 var debug = false; // デバッグ
-var swLifeGame = false; // LifeGame実行ﾌﾗｸﾞ
+var swLifeGame = false; // LifeGame実行フラグ
+var lfArray = Array(Array(canvas_width + 2), Array(canvas_height + 2)); // LifeGame配列
 
 ///// 内部関数
 
@@ -25,7 +27,7 @@ function Point2BlockName(x, y) {
     var col = 'C' + (Math.floor(x / canvas_magnification) + 1);
     var row = 'R' + (Math.floor(y / canvas_magnification) + 1);
 
-    if(debug)document.getElementById('msg3').innerHTML = 'セル番号　' + row + ' x ' + col;
+    if (debug) document.getElementById('msg3').innerHTML = 'セル番号　' + row + ' x ' + col;
 }
 
 // キャンバスに罫線を描画する
@@ -48,7 +50,7 @@ function drawRule() {
     // 横線
     for (var i = 0; i < canvas_height + 1; i++) {
         ctx.moveTo(0, (i * canvas_magnification));
-        ctx.lineTo(canvas.height, (i * canvas_magnification));
+        ctx.lineTo(canvas.width, (i * canvas_magnification));
     }
 
     ctx.stroke();
@@ -71,6 +73,14 @@ window.onload = function () {
     window.addEventListener('mouseup', OnMouseup);
 
     init_canvas();
+    // 配列初期化 ※配列サイズは行列ともマスの数+2(はみ出しマス考慮)
+    init_lfArray();
+}
+
+function init_CA() {
+    init_canvas();
+    // 配列初期化 ※配列サイズは行列ともマスの数+2(はみ出しマス考慮)
+    init_lfArray();
 }
 
 function OnMousedown(e) {
@@ -86,10 +96,11 @@ function OnMousedown(e) {
     ctx.fillRect(col * canvas_magnification, row * canvas_magnification,
         canvas_magnification, canvas_magnification);
 
+    lfArray[row + 1][col + 1] = 1;
     // 罫線の描画
     drawRule();
 
-    if(debug)document.getElementById('msg2').innerHTML = 'マウスダウン　X:' + mouseX + ' Y' + mouseY;
+    if (debug) document.getElementById('msg2').innerHTML = 'マウスダウン　X:' + mouseX + ' Y' + mouseY;
 
     canvas_mousedown_flg = true;
 }
@@ -108,10 +119,12 @@ function OnMousemove(e) {
         ctx.fillRect(col * canvas_magnification, row * canvas_magnification,
             canvas_magnification, canvas_magnification);
 
+        lfArray[row + 1][col + 1] = 1;
+        // 罫線の描画
         drawRule();
     }
 
-    if(debug)document.getElementById('msg1').innerHTML = '現在座標　X:' + mouseX + ' Y' + mouseY;
+    if (debug) document.getElementById('msg1').innerHTML = '現在座標　X:' + mouseX + ' Y' + mouseY;
     Point2BlockName(mouseX, mouseY);
 }
 
@@ -122,9 +135,62 @@ function OnMouseup(e) {
 // LifeGame開始/停止
 function OnPresssLifeGame() {
     swLifeGame = !swLifeGame
-    if(swLifeGame){
-        $('#BTNLifeGame').text('停止');
-    }else{
-        $('#BTNLifeGame').text('開始');
+    if (swLifeGame) {
+        // タイマー起動
+        timerID = setInterval("moveLifeGame()", 1000);
+        $('#BTNLifeGame').text('停止||');
+        $('#BTNLifeGame').attr('class','btn btn-outline-primary');
+    } else {
+        // タイマー停止
+        clearInterval(timerID);
+        $('#BTNLifeGame').text('開始>>');
+        $('#BTNLifeGame').attr('class','btn btn-primary');
     }
+}
+
+// 配列初期化 ※配列サイズは行列ともマスの数+2(はみ出しマス考慮)
+function init_lfArray() {
+    // LifeGameの初期化
+    var lfrows = canvas_height + 2;
+    var lfcols = canvas_width + 2;
+    lfArray = new Array(lfrows);
+    for (let i = 0; i < lfrows; i++) {
+        lfArray[i] = new Array(lfcols).fill(0);
+        // 端セルはMAX値代入
+        lfArray[i][0] = Number.MAX_SAFE_INTEGER;
+        lfArray[i][canvas_width + 1] = Number.MAX_SAFE_INTEGER;
+    }
+    // 端セルはMAX値代入
+    lfArray[0].fill(Number.MAX_SAFE_INTEGER);
+    lfArray[canvas_height + 1].fill(Number.MAX_SAFE_INTEGER);
+}
+
+// LifeGameをやる関数
+function moveLifeGame() {
+    // lfArrayを待避(値渡し)
+    var lfArrayPrev = lfArray.slice();
+    // lfArrayを初期化
+    init_canvas();
+    init_lfArray();
+    // lfArray = lfArrayPrev.slice();
+    // lfArrayの中身表示
+    show_lfArray();
+}
+
+// LifeGame表示関数
+function show_lfArray() {
+    // Canvas初期化
+    init_canvas();
+    // 塗り直し
+    for (let row = 0; row < canvas_height; row++) {
+        for (let col = 0; col < canvas_width; col++) {
+            if (lfArray[row + 1][col + 1] == 1) {
+                ctx.fillStyle = "rgb(200, 0, 0)";
+                ctx.fillRect(col * canvas_magnification, row * canvas_magnification,
+                    canvas_magnification, canvas_magnification);
+            }
+        }
+    }
+    // 罫線の描画
+    drawRule();
 }
