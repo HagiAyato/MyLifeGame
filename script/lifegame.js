@@ -92,9 +92,7 @@ function OnMousedown(e) {
     var col = Math.floor(mouseX / canvas_magnification);
     var row = Math.floor(mouseY / canvas_magnification);
 
-    ctx.fillStyle = "rgb(200, 0, 0)";
-    ctx.fillRect(col * canvas_magnification, row * canvas_magnification,
-        canvas_magnification, canvas_magnification);
+    drawCell(row, col);
 
     lfArray[row + 1][col + 1] = 1;
     // 罫線の描画
@@ -115,9 +113,7 @@ function OnMousemove(e) {
         var col = Math.floor(mouseX / canvas_magnification);
         var row = Math.floor(mouseY / canvas_magnification);
 
-        ctx.fillStyle = "rgb(200, 0, 0)";
-        ctx.fillRect(col * canvas_magnification, row * canvas_magnification,
-            canvas_magnification, canvas_magnification);
+        drawCell(row, col);
 
         lfArray[row + 1][col + 1] = 1;
         // 罫線の描画
@@ -137,14 +133,14 @@ function OnPresssLifeGame() {
     swLifeGame = !swLifeGame
     if (swLifeGame) {
         // タイマー起動
-        timerID = setInterval("moveLifeGame()", 1000);
+        timerID = setInterval("moveLifeGame()", 250);
         $('#BTNLifeGame').text('停止||');
-        $('#BTNLifeGame').attr('class','btn btn-outline-primary');
+        $('#BTNLifeGame').attr('class', 'btn btn-outline-primary');
     } else {
         // タイマー停止
         clearInterval(timerID);
         $('#BTNLifeGame').text('開始>>');
-        $('#BTNLifeGame').attr('class','btn btn-primary');
+        $('#BTNLifeGame').attr('class', 'btn btn-primary');
     }
 }
 
@@ -172,7 +168,26 @@ function moveLifeGame() {
     // lfArrayを初期化
     init_canvas();
     init_lfArray();
-    // lfArray = lfArrayPrev.slice();
+    // ライフゲームのメイン処理
+    for (let row = 0; row < canvas_height; row++) {
+        for (let col = 0; col < canvas_width; col++) {
+            if (lfArrayPrev[row + 1][col + 1] == 1) {
+                // 今は生きている
+                if (countLife(lfArrayPrev, row + 1, col + 1) == 2 || countLife(lfArrayPrev, row + 1, col + 1) == 3) {
+                    lfArray[row + 1][col + 1] = 1;
+                } else {
+                    lfArray[row + 1][col + 1] = 0;
+                }
+            } else {
+                // 今は死んでいる
+                if (countLife(lfArrayPrev, row + 1, col + 1) == 3) {
+                    lfArray[row + 1][col + 1] = 1;
+                } else {
+                    lfArray[row + 1][col + 1] = 0;
+                }
+            }
+        }
+    }
     // lfArrayの中身表示
     show_lfArray();
 }
@@ -185,12 +200,31 @@ function show_lfArray() {
     for (let row = 0; row < canvas_height; row++) {
         for (let col = 0; col < canvas_width; col++) {
             if (lfArray[row + 1][col + 1] == 1) {
-                ctx.fillStyle = "rgb(200, 0, 0)";
-                ctx.fillRect(col * canvas_magnification, row * canvas_magnification,
-                    canvas_magnification, canvas_magnification);
+                drawCell(row, col);
             }
         }
     }
     // 罫線の描画
     drawRule();
+}
+
+// セル色塗り
+function drawCell(row, col){
+    ctx.fillStyle = "rgb(200, 0, 0)";
+    ctx.fillRect(col * canvas_magnification, row * canvas_magnification,
+        canvas_magnification, canvas_magnification);
+}
+
+// row行col列のセル周囲の生存セルチェック
+function countLife(lfArrayPrev, row, col) {
+    var cnt = 0;
+    for (i = row - 1; i <= row + 1; i++) {
+        for (j = col - 1; j <= col + 1; j++) {
+            // 現在のセルは見なくていい
+            if (i == row && j == col) continue;
+            // 周囲のセルが生きている(1)ならカウント増加
+            if (lfArrayPrev[i][j] == 1) cnt++;
+        }
+    }
+    return cnt;
 }
