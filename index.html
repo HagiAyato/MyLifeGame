@@ -26,15 +26,15 @@
     <link rel="stylesheet" href="css/lifegame.css" />
     <script type="text/javascript" src="script/lifegame.js">
     </script>
-    <title>Life Game!</title>
-    <meta name="description" content="HTML,JavaScript,CSSで作るライフゲーム。" />
+    <title>Game of Life!</title>
+    <meta name="description" content="HTML,JavaScript,CSSで作る2陣営対抗ライフゲーム。1色だけ使えば、普通のライフゲームとして遊べます。" />
 </head>
 
 <header>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <h1>ライフゲーム/Life Game</h1>
+                <h1>2陣営対抗ライフゲーム/Two Camps Game of Life</h1>
             </div>
         </div>
     </nav>
@@ -44,6 +44,15 @@
     <div class="container-fluid">
         <button class="btn btn-danger" onclick="init_CA();">クリア</button>
         <button class="btn btn-primary" id="BTNLifeGame" onclick="OnPresssLifeGame()">開始>></button>
+        <div class="form-group">
+            <div class="radio-inline">
+                <p class="control-label" style="display:inline-block">入力色：</p>
+                <input type="radio" id="colorChoice1" name="color" value="0" onchange="colorChange(this.value)"checked>
+                <label for="colorChoice1">赤(生物1)</label>
+                <input type="radio" id="colorChoice2" name="color" value="1" onchange="colorChange(this.value)">
+                <label for="colorChoice2">青(生物2)</label>
+            </div>
+        </div>
         <p></p>
         <canvas id="MyCanvas" style="padding:0;"></canvas>
         <div id="msg1"></div>

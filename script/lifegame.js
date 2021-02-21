@@ -10,6 +10,9 @@ var canvas_mousedown_flg = false; // マウスダウンフラグ
 var debug = false; // デバッグ
 var swLifeGame = false; // LifeGame実行フラグ
 var lfArray = Array(Array(canvas_width + 2), Array(canvas_height + 2)); // LifeGame配列
+var colorArray = Array("rgb(200, 0, 0)", "rgb(0, 0, 200)");// 色配列
+var CIArray = [1, 2];
+var colorIndex = 0; // 色index
 
 ///// 内部関数
 
@@ -92,9 +95,14 @@ function OnMousedown(e) {
     var col = Math.floor(mouseX / canvas_magnification);
     var row = Math.floor(mouseY / canvas_magnification);
 
-    drawCell(row, col);
+    if (lfArray[row + 1][col + 1] == 0) {
+        drawCell(row, col, colorArray[colorIndex]);
+        lfArray[row + 1][col + 1] = CIArray[colorIndex];
+    } else {
+        drawCell(row, col);
+        lfArray[row + 1][col + 1] = 0;
+    }
 
-    lfArray[row + 1][col + 1] = 1;
     // 罫線の描画
     drawRule();
 
@@ -113,9 +121,9 @@ function OnMousemove(e) {
         var col = Math.floor(mouseX / canvas_magnification);
         var row = Math.floor(mouseY / canvas_magnification);
 
-        drawCell(row, col);
+        drawCell(row, col, colorArray[colorIndex]);
 
-        lfArray[row + 1][col + 1] = 1;
+        lfArray[row + 1][col + 1] = CIArray[colorIndex];
         // 罫線の描画
         drawRule();
     }
@@ -171,19 +179,40 @@ function moveLifeGame() {
     // ライフゲームのメイン処理
     for (let row = 0; row < canvas_height; row++) {
         for (let col = 0; col < canvas_width; col++) {
-            if (lfArrayPrev[row + 1][col + 1] == 1) {
-                // 今は生きている
-                if (countLife(lfArrayPrev, row + 1, col + 1) == 2 || countLife(lfArrayPrev, row + 1, col + 1) == 3) {
-                    lfArray[row + 1][col + 1] = 1;
-                } else {
-                    lfArray[row + 1][col + 1] = 0;
+            // 各マスごとに生死判定
+            for (var i = 0; i < CIArray.length; i++) {
+                if (lfArrayPrev[row + 1][col + 1] == CIArray[i]) {
+                    // 今は生きている
+                    if (countLife(lfArrayPrev, row + 1, col + 1, CIArray[i]) == 2 || countLife(lfArrayPrev, row + 1, col + 1, CIArray[i]) == 3) {
+                        // 生存
+                        lfArray[row + 1][col + 1] = CIArray[i];
+                    }
                 }
-            } else {
+            }
+            if(lfArrayPrev[row + 1][col + 1] == 0){
                 // 今は死んでいる
-                if (countLife(lfArrayPrev, row + 1, col + 1) == 3) {
-                    lfArray[row + 1][col + 1] = 1;
-                } else {
-                    lfArray[row + 1][col + 1] = 0;
+                var birthflag = 0; // 誕生フラグ(0:誕生しない,1:生物1誕生,2:生物2誕生,3:生物1と2どちらも誕生できる)
+                // 1種でも誕生条件を満たすなら、誕生フラグ=1
+                for (var i = 0; i < CIArray.length; i++) {
+                    if (countLife(lfArrayPrev, row + 1, col + 1, CIArray[i]) == 3) birthflag += CIArray[i];
+                }
+                switch (birthflag) {
+                    case 1:
+                        // 誕生(生物1)
+                        lfArray[row + 1][col + 1] = 1;
+                        break;
+                    case 2:
+                        // 誕生(生物2)
+                        lfArray[row + 1][col + 1] = 2;
+                        break;
+                    case 3:
+                        // 誕生(生物1か2ランダム)
+                        lfArray[row + 1][col + 1] = CIArray[Math.round(Math.random())];
+                        break;
+                    default:
+                        // 誕生しない
+                        lfArray[row + 1][col + 1] = 0;
+                        break;
                 }
             }
         }
@@ -199,8 +228,10 @@ function show_lfArray() {
     // 塗り直し
     for (let row = 0; row < canvas_height; row++) {
         for (let col = 0; col < canvas_width; col++) {
-            if (lfArray[row + 1][col + 1] == 1) {
-                drawCell(row, col);
+            for (var i = 0; i < CIArray.length; i++) {
+                if (lfArray[row + 1][col + 1] == CIArray[i]) {
+                    drawCell(row, col, colorArray[i]);
+                }
             }
         }
     }
@@ -209,22 +240,27 @@ function show_lfArray() {
 }
 
 // セル色塗り
-function drawCell(row, col){
-    ctx.fillStyle = "rgb(200, 0, 0)";
+function drawCell(row, col, fillstyle = "rgb(255, 255, 255)") {
+    ctx.fillStyle = fillstyle;
     ctx.fillRect(col * canvas_magnification, row * canvas_magnification,
         canvas_magnification, canvas_magnification);
 }
 
 // row行col列のセル周囲の生存セルチェック
-function countLife(lfArrayPrev, row, col) {
+function countLife(lfArrayPrev, row, col, index) {
     var cnt = 0;
     for (i = row - 1; i <= row + 1; i++) {
         for (j = col - 1; j <= col + 1; j++) {
             // 現在のセルは見なくていい
             if (i == row && j == col) continue;
-            // 周囲のセルが生きている(1)ならカウント増加
-            if (lfArrayPrev[i][j] == 1) cnt++;
+            // 周囲のセルが生きている(index)ならカウント増加
+            if (lfArrayPrev[i][j] == index) cnt++;
         }
     }
     return cnt;
+}
+
+// 色替え
+function colorChange(color) {
+    colorIndex = color;
 }
