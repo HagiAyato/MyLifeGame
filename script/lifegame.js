@@ -14,6 +14,8 @@ var colorArray = Array("rgb(200, 0, 0)", "rgb(0, 0, 200)");// 色配列
 var CIArray = [1, 2];
 var colorIndex = 0; // 色index
 
+var swReadme = false; // 説明表示フラグ
+
 ///// 内部関数
 
 function init_canvas() {
@@ -265,7 +267,6 @@ function colorChange(color) {
     colorIndex = color;
 }
 
-var swReadme = false;
 // 説明表示非表示
 function dispReadme(){
     swReadme = !swReadme
