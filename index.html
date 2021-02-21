@@ -34,7 +34,7 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <h1>2陣営対抗ライフゲーム/Two Camps Game of Life</h1>
+                <h1>2生物ライフゲーム/Two Camps Game of Life</h1>
             </div>
         </div>
     </nav>
@@ -42,12 +42,46 @@
 
 <body>
     <div class="container-fluid">
+        <div class="p-1">
+            <button class="btn" id="BTNReadme" onclick="dispReadme();">説明表示▼</button><br/>
+            <div class="border p-3" id="readme" style="display:none">
+                <h1>ライフゲームの説明</h1>
+                <h2>概要</h2>
+                <a href="https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B2%E3%83%BC%E3%83%A0">ライフゲーム(wikipedia)</a><br/>
+                ライフゲームは、生命の誕生、生存、死亡をマス目でシミュレーションするゲームです。<br/>
+                ゲームと言ってもクリア、ゲームオーバー条件はなく、自由にマスに生命を配置し、その変化を楽しみむものです。
+                <h5>セルの生死ルール</h5>
+                <ul>
+                    <li>誕生…死んでいるセルに隣接する生きたセルがちょうど3つあれば、次の世代が誕生する。</li>
+                    <li>生存…生きているセルに隣接する生きたセルが2つか3つならば、次の世代でも生存する。</li>
+                    <li>過疎…生きているセルに隣接する生きたセルが1つ以下ならば、過疎により死滅する。</li>
+                    <li>過密…生きているセルに隣接する生きたセルが4つ以上ならば、過密により死滅する。</li>
+                </ul>
+                <h5>独自機能　"2生物"</h5>
+                ここで実装しているライフゲームは、2色(=2生物)のライフゲームです。<br/>
+                セルの生死追加ルール
+                <ul>
+                    <li>生存、過疎、過密…2種の生物それぞれで判定を行う。</li>
+                    <li>誕生…2種の生物それぞれで判定を行う。どちらの生物も誕生できるときは、ランダムにどちらかが誕生する。</li>
+                </ul>
+                ※1色だけ使えば、普通のライフゲームとして遊べます。
+                <h2>操作説明</h2>
+                <ul>
+                    <li>クリアボタン…全生物を消す</li>
+                    <li>開始/停止ボタン…ライフゲーム開始/停止</li>
+                    <li>入力色(ラジオボタン)…入力色(生物)の選択</li>
+                    <li>グリッドのマスをクリック…入力色(ラジオボタン)で設定した色の生物を配置<br/>配置しているマスをクリックした場合は生物を消す。</li>
+                    <li>グリッド上でドラッグ…入力色(ラジオボタン)で設定した色の生物を一括配置</li>
+                </ul>
+                <h2></h2>
+            </div>
+        </div>
         <button class="btn btn-danger" onclick="init_CA();">クリア</button>
         <button class="btn btn-primary" id="BTNLifeGame" onclick="OnPresssLifeGame()">開始>></button>
         <div class="form-group">
             <div class="radio-inline">
                 <p class="control-label" style="display:inline-block">入力色：</p>
-                <input type="radio" id="colorChoice1" name="color" value="0" onchange="colorChange(this.value)"checked>
+                <input type="radio" id="colorChoice1" name="color" value="0" onchange="colorChange(this.value)" checked>
                 <label for="colorChoice1">赤(生物1)</label>
                 <input type="radio" id="colorChoice2" name="color" value="1" onchange="colorChange(this.value)">
                 <label for="colorChoice2">青(生物2)</label>

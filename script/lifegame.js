@@ -264,3 +264,18 @@ function countLife(lfArrayPrev, row, col, index) {
 function colorChange(color) {
     colorIndex = color;
 }
+
+var swReadme = false;
+// 説明表示非表示
+function dispReadme(){
+    swReadme = !swReadme
+    if (swReadme) {
+        // readme表示
+        $('#BTNReadme').text('説明非表示△');
+        $('#readme').attr('style', 'display:block');
+    } else {
+        // readme非表示
+        $('#BTNReadme').text('説明表示▼');
+        $('#readme').attr('style', 'display:none');
+    }
+}
