@@ -193,7 +193,7 @@ function moveLifeGame() {
                     }
                 }
             }
-            if(lfArrayPrev[row + 1][col + 1] == 0){
+            if (lfArrayPrev[row + 1][col + 1] == 0) {
                 // 今は死んでいる
                 var birthflag = 0; // 誕生フラグ(0:誕生しない,1:生物1誕生,2:生物2誕生,3:生物1と2どちらも誕生できる)
                 // 1種でも誕生条件を満たすなら、誕生フラグ=1
@@ -270,7 +270,7 @@ function colorChange(color) {
 }
 
 // 説明表示非表示
-function dispReadme(){
+function dispReadme() {
     showReadme_flg = !showReadme_flg
     if (showReadme_flg) {
         // readme表示
@@ -284,7 +284,15 @@ function dispReadme(){
 }
 
 // FPS変更時
-function OnFPSChange(){
+function OnFPSChange() {
     fps = $('#RNGfps').val();
+    cycle = (1 / fps) * 1000; // fpsより実行周期演算
+    if (doLifeGame_flg) {
+        // lifegame実行中は、即実行周期変更
+        // ※一度現状のタイマーを消去する点に注意
+        clearInterval(timerID);
+        timerID = setInterval("moveLifeGame()", cycle);
+    }
     $('#LBLfps').text(fps);
+    $('#LBLcycle').text(Math.round(cycle * 100) / 100);
 }

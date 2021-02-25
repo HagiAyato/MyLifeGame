@@ -43,12 +43,13 @@
 <body>
     <div class="container-fluid">
         <div class="p-1">
-            <button class="btn" id="BTNReadme" onclick="dispReadme();">説明表示▼</button><br/>
+            <button class="btn" id="BTNReadme" onclick="dispReadme();">説明表示▼</button><br />
             <div class="border p-3" id="readme" style="display:none">
                 <h1>ライフゲームの説明</h1>
                 <h2>概要</h2>
-                <a href="https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B2%E3%83%BC%E3%83%A0">ライフゲーム(wikipedia)</a><br/>
-                ライフゲームは、生命の誕生、生存、死亡をマス目でシミュレーションするゲームです。<br/>
+                <a
+                    href="https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B2%E3%83%BC%E3%83%A0">ライフゲーム(wikipedia)</a><br />
+                ライフゲームは、生命の誕生、生存、死亡をマス目でシミュレーションするゲームです。<br />
                 ゲームと言ってもクリア、ゲームオーバー条件はなく、自由にマスに生命を配置し、その変化を楽しみむものです。
                 <h5>セルの生死ルール</h5>
                 <ul>
@@ -58,7 +59,7 @@
                     <li>過密…生きているセルに隣接する生きたセルが4つ以上ならば、過密により死滅する。</li>
                 </ul>
                 <h5>独自機能　"2生物"</h5>
-                ここで実装しているライフゲームは、2色(=2生物)のライフゲームです。<br/>
+                ここで実装しているライフゲームは、2色(=2生物)のライフゲームです。<br />
                 セルの生死追加ルール
                 <ul>
                     <li>生存、過疎、過密…2種の生物それぞれで判定を行う。</li>
@@ -70,7 +71,8 @@
                     <li>クリアボタン…全生物を消す</li>
                     <li>開始/停止ボタン…ライフゲーム開始/停止</li>
                     <li>入力色(ラジオボタン)…入力色(生物)の選択</li>
-                    <li>グリッドのマスをクリック…入力色(ラジオボタン)で設定した色の生物を配置<br/>配置しているマスをクリックした場合は生物を消す。</li>
+                    <li>FPSレンジ操作…FPS・実行周期の変更</li>
+                    <li>グリッドのマスをクリック…入力色(ラジオボタン)で設定した色の生物を配置<br />配置しているマスをクリックした場合は生物を消す。</li>
                     <li>グリッド上でドラッグ…入力色(ラジオボタン)で設定した色の生物を一括配置</li>
                 </ul>
                 <h2></h2>
@@ -78,11 +80,13 @@
         </div>
         <button class="btn btn-danger" onclick="init_CA();">クリア</button>
         <button class="btn btn-primary" id="BTNLifeGame" onclick="OnPresssLifeGame()">開始>></button>
-        FPS(0-20)：
-        <input id="RNGfps" type="range" min="0" max="10" step="0.5" value="1" onchange="OnFPSChange()">
+        FPS(0.5-20)：
+        <input id="RNGfps" type="range" min="0.5" max="10" step="0.5" value="1" onchange="OnFPSChange()">
         現在のFPS：
         <span id="LBLfps">1</span>
-        FPS
+        FPS(周期
+        <span id="LBLcycle">1000</span>
+        ms)
         <div class="form-group">
             <div class="radio-inline">
                 <p class="control-label" style="display:inline-block">入力色：</p>
