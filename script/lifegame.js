@@ -7,14 +7,16 @@ var canvas_width = 40;           // キャンバス横幅
 var canvas_height = 35;           // キャンバス縦幅 
 var canvas_mousedown_flg = false; // マウスダウンフラグ
 
-var debug = false; // デバッグ
-var swLifeGame = false; // LifeGame実行フラグ
+var debug_flg = false; // デバッグ
+var doLifeGame_flg = false; // LifeGame実行フラグ
 var lfArray = Array(Array(canvas_width + 2), Array(canvas_height + 2)); // LifeGame配列
 var colorArray = Array("rgb(200, 0, 0)", "rgb(0, 0, 200)");// 色配列
-var CIArray = [1, 2];
+var CIArray = [1, 2];// 生物番号配列
 var colorIndex = 0; // 色index
+var fps = 1.0; // FPS
+var cycle = 1000 // ms単位のライフゲーム実行周期
 
-var swReadme = false; // 説明表示フラグ
+var showReadme_flg = false; // 説明表示フラグ
 
 ///// 内部関数
 
@@ -32,7 +34,7 @@ function Point2BlockName(x, y) {
     var col = 'C' + (Math.floor(x / canvas_magnification) + 1);
     var row = 'R' + (Math.floor(y / canvas_magnification) + 1);
 
-    if (debug) document.getElementById('msg3').innerHTML = 'セル番号　' + row + ' x ' + col;
+    if (debug_flg) document.getElementById('msg3').innerHTML = 'セル番号　' + row + ' x ' + col;
 }
 
 // キャンバスに罫線を描画する
@@ -108,7 +110,7 @@ function OnMousedown(e) {
     // 罫線の描画
     drawRule();
 
-    if (debug) document.getElementById('msg2').innerHTML = 'マウスダウン　X:' + mouseX + ' Y' + mouseY;
+    if (debug_flg) document.getElementById('msg2').innerHTML = 'マウスダウン　X:' + mouseX + ' Y' + mouseY;
 
     canvas_mousedown_flg = true;
 }
@@ -130,7 +132,7 @@ function OnMousemove(e) {
         drawRule();
     }
 
-    if (debug) document.getElementById('msg1').innerHTML = '現在座標　X:' + mouseX + ' Y' + mouseY;
+    if (debug_flg) document.getElementById('msg1').innerHTML = '現在座標　X:' + mouseX + ' Y' + mouseY;
     Point2BlockName(mouseX, mouseY);
 }
 
@@ -140,10 +142,10 @@ function OnMouseup(e) {
 
 // LifeGame開始/停止
 function OnPresssLifeGame() {
-    swLifeGame = !swLifeGame
-    if (swLifeGame) {
+    doLifeGame_flg = !doLifeGame_flg
+    if (doLifeGame_flg) {
         // タイマー起動
-        timerID = setInterval("moveLifeGame()", 250);
+        timerID = setInterval("moveLifeGame()", cycle);
         $('#BTNLifeGame').text('停止||');
         $('#BTNLifeGame').attr('class', 'btn btn-outline-primary');
     } else {
@@ -269,8 +271,8 @@ function colorChange(color) {
 
 // 説明表示非表示
 function dispReadme(){
-    swReadme = !swReadme
-    if (swReadme) {
+    showReadme_flg = !showReadme_flg
+    if (showReadme_flg) {
         // readme表示
         $('#BTNReadme').text('説明非表示△');
         $('#readme').attr('style', 'display:block');
@@ -279,4 +281,10 @@ function dispReadme(){
         $('#BTNReadme').text('説明表示▼');
         $('#readme').attr('style', 'display:none');
     }
+}
+
+// FPS変更時
+function OnFPSChange(){
+    fps = $('#RNGfps').val();
+    $('#LBLfps').text(fps);
 }
