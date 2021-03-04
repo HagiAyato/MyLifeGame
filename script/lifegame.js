@@ -91,6 +91,7 @@ function init_CA() {
 }
 
 function OnMousedown(e) {
+    if ((event.buttons & 1) == 0) return;
     var rect = e.target.getBoundingClientRect();
     mouseX = e.clientX - rect.left;
     mouseY = e.clientY - rect.top;
