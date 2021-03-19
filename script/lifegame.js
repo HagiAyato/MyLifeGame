@@ -136,9 +136,6 @@ function OnMousemove(e) {
 
     if (debug_flg) document.getElementById('msg1').innerHTML = '現在座標　X:' + mouseX + ' Y' + mouseY;
     Point2BlockName(mouseX, mouseY);
-    // ドラッグ、スワイプによるこれ以上のイベントの発動を阻止
-    e.preventDefault();
-    e.stopPropagation();
 }
 
 function OnMouseup(e) {
