@@ -74,10 +74,11 @@ window.onload = function () {
 
     ctx = canvas.getContext("2d");
 
-    canvas.addEventListener('mousedown', OnMousedown);
-    canvas.addEventListener('mousemove', OnMousemove);
-    canvas.addEventListener('mouseup', OnMouseup);
-    window.addEventListener('mouseup', OnMouseup);
+    // pointer○○イベントはスマホPC両方対応
+    canvas.addEventListener('pointerdown', OnMousedown);
+    canvas.addEventListener('pointermove', OnMousemove);
+    canvas.addEventListener('pointerup', OnMouseup);
+    window.addEventListener('pointerup', OnMouseup);
 
     init_canvas();
     // 配列初期化 ※配列サイズは行列ともマスの数+2(はみ出しマス考慮)
