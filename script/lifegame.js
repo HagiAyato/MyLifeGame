@@ -76,10 +76,7 @@ window.onload = function () {
 
     // pointer○○イベントはスマホPC両方対応
     canvas.addEventListener('pointerdown', OnMousedown);
-    // pointermoveの挙動が納得いかない(pointercancelイベントがある程度すると出てくる)
-    // のでここだけはtouch/mouse別々にする
-    canvas.addEventListener('mousemove', OnMousemove);
-    canvas.addEventListener('touchmove', OnMousemove);
+    canvas.addEventListener('pointermove', OnMousemove);
     canvas.addEventListener('pointerup', OnMouseup);
     window.addEventListener('pointerup', OnMouseup);
 
