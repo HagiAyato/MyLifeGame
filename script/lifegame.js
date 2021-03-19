@@ -132,6 +132,9 @@ function OnMousemove(e) {
         lfArray[row + 1][col + 1] = CIArray[colorIndex];
         // 罫線の描画
         drawRule();
+        // ドラッグ、スワイプによるこれ以上のイベントの発動を阻止
+        e.preventDefault();
+        e.stopPropagation();
     }
 
     if (debug_flg) document.getElementById('msg1').innerHTML = '現在座標　X:' + mouseX + ' Y' + mouseY;
