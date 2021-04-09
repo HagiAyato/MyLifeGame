@@ -43,7 +43,7 @@
 <body>
     <div class="container-fluid">
         <div class="p-1">
-            <button class="btn" id="BTNReadme" onclick="dispReadme();">説明表示▼</button><br />
+            <button class="btn btn-light" id="BTNReadme" onclick="dispReadme();">説明表示▼</button><br />
             <div class="border p-3" id="readme" style="display:none">
                 <h1>ライフゲームの説明</h1>
                 <h2>概要</h2>
@@ -80,9 +80,9 @@
             </div>
         </div>
         <button class="btn btn-danger" onclick="init_CA();">クリア</button>
-        <button class="btn btn-primary" id="BTNLifeGame" onclick="OnPresssLifeGame()">開始>></button>
+        <button class="btn btn-primary" id="BTNLifeGame" onclick="OnPresssLifeGame();">開始>></button>
         FPS(0.5-20)：
-        <input id="RNGfps" type="range" min="0.5" max="10" step="0.5" value="1" onchange="OnFPSChange()">
+        <input id="RNGfps" type="range" min="0.5" max="10" step="0.5" value="1" onchange="OnFPSChange();">
         現在のFPS：
         <span id="LBLfps">1</span>
         FPS(周期
@@ -91,9 +91,9 @@
         <div class="form-group">
             <div class="radio-inline">
                 <p class="control-label" style="display:inline-block">入力色：</p>
-                <input type="radio" id="colorChoice1" name="color" value="0" onchange="colorChange(this.value)" checked>
+                <input type="radio" id="colorChoice1" name="color" value="0" onchange="colorChange(this.value);" checked>
                 <label for="colorChoice1">赤(生物1)</label>
-                <input type="radio" id="colorChoice2" name="color" value="1" onchange="colorChange(this.value)">
+                <input type="radio" id="colorChoice2" name="color" value="1" onchange="colorChange(this.value);">
                 <label for="colorChoice2">青(生物2)</label>
             </div>
         </div>
@@ -102,6 +102,7 @@
         <div id="msg1"></div>
         <div id="msg2"></div>
         <div id="msg3"></div>
+        <button class="btn btn-primary" id="BTNSave" onclick="saveIMG();">今のセルを画像保存</button>
     </div>
 </body>
 

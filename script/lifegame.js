@@ -301,3 +301,17 @@ function OnFPSChange() {
     $('#LBLfps').text(fps);
     $('#LBLcycle').text(Math.round(cycle * 100) / 100);
 }
+
+/**
+ * 今のキャンバスを画像に保存・DL
+ */
+function saveIMG() {
+    // アンカータグ(DL機能用)
+    const a = document.createElement('a');
+    // Canvas内容をJpeg化
+    a.href=canvas.toDataURL('image/jpeg');
+    // DL時の名称決定
+    a.download = 'gameOfLife.jpg';
+    // クリックイベントによりダウンロード実行
+    a.click();
+}
